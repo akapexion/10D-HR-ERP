@@ -6,11 +6,18 @@ export default function AddEmployee() {
   const [empFullName, setEmpFullName] = useState("");
   const [empEmail, setEmpEmail] = useState("");
   const [empRole, setEmpRole] = useState("");
-  const [empDepartment, setEmpDepartment] = useState("");
+  const [empDepartment, setEmpDepartment] = useState("Engineering");
   const [empJoinDate, setEmpJoinDate] = useState("");
   
-  const handleSubmission = (e) => {
+  const handleSubmission = async(e) => {
     e.preventDefault();
+    try{
+      
+    }
+    catch(err){
+
+    }
+    
   }
 
   return (
@@ -47,6 +54,8 @@ export default function AddEmployee() {
               placeholder="e.g. Ayesha Khan"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
+              value={empFullName}
+              onChange={(e) => setEmpFullName(e.target.value)}
             />
           </div>
 
@@ -60,6 +69,8 @@ export default function AddEmployee() {
               placeholder="name@company.com"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
+              value={empEmail}
+              onChange={(e) => setEmpEmail(e.target.value)}
             />
           </div>
 
@@ -72,6 +83,8 @@ export default function AddEmployee() {
               placeholder="e.g. Product Designer"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
+              value={empRole}
+              onChange={(e) => setEmpRole(e.target.value)}
             />
           </div>
 
@@ -82,12 +95,13 @@ export default function AddEmployee() {
             <select
               name="department"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+              onChange={(e) => setEmpDepartment(e.target.value)}
             >
-              <option>Engineering</option>
-              <option>Design</option>
-              <option>Marketing</option>
-              <option>Human Resources</option>
-              <option>Sales</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Design">Design</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Sales">Sales</option>
             </select>
           </div>
 
@@ -99,6 +113,8 @@ export default function AddEmployee() {
               name="joinDate"
               type="date"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={empJoinDate}
+              onChange={(e) => setEmpJoinDate(e.target.value)}
             />
           </div>
         </div>
