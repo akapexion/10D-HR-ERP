@@ -9,6 +9,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -46,20 +47,17 @@ export default function Sidebar() {
 
       {/* Nav links */}
       <nav className="flex-1 px-3 py-6 space-y-1">
-        {nav.map(({ name, icon: Icon }) => (
-          <button
-            key={name}
-            onClick={() => setActive(name)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-              active === name
-                ? "bg-indigo-600 text-white shadow-sm shadow-indigo-900/50"
-                : "hover:bg-slate-800 hover:text-white"
-            }`}
-          >
-            <Icon size={18} className="shrink-0" />
-            {!collapsed && <span>{name}</span>}
-          </button>
-        ))}
+        <ul>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="employees">Employees</Link>
+          </li>
+          <li>
+            <Link to="addemployee">Add Employee</Link>
+          </li>
+        </ul>
       </nav>
 
       {/* User card */}
