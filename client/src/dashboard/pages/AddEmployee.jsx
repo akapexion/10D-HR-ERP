@@ -9,30 +9,26 @@ export default function AddEmployee() {
   const [empRole, setEmpRole] = useState("");
   const [empDepartment, setEmpDepartment] = useState("Engineering");
   const [empJoinDate, setEmpJoinDate] = useState("");
-  
+
   const handleSubmission = async(e) => {
     e.preventDefault();
     try{
-        const response = await axios.post("http://localhost:3000/addemployee", {
-          empFullName,
-          empEmail,
-          empRole,
-          empDepartment,
-          empJoinDate
-        });
+      // console.log(empFullName + " " + empEmail + " " + empRole + " " + empDepartment + " " + empJoinDate);
 
-        console.log(response);
+      const response = await axios.post("http://localhost:3000/addemployee", {
+        empFullName, empEmail, empRole, empDepartment, empJoinDate
+      }); 
+      console.log(response);
 
-        setEmpFullName("");
-        setEmpEmail("");
-        setEmpRole("");
-        setEmpDepartment("Engineering");
-        setEmpJoinDate("");
+      setEmpFullName("");
+      setEmpEmail("");
+      setEmpRole("");
+      setEmpDepartment("Engineering");
+      setEmpJoinDate("");
     }
     catch(err){
-        console.error(err);
+      console.log(err);
     }
-    
   }
 
   return (

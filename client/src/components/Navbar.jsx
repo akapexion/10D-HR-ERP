@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +33,11 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
+
+        <button className="bg-blue-950 text-white p-2 rounded">
+            <Link to="/dashboard"> Sign In </Link>
+        </button>
 
         {/* Mobile toggle button */}
         <button

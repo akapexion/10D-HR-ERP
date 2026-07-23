@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
+
 app.post("/addemployee", async(req, res) => {
   try{
     const { empFullName, empEmail, empRole, empDepartment, empJoinDate } = req.body;
@@ -30,6 +31,20 @@ app.post("/addemployee", async(req, res) => {
     console.log(err);
   }
 })
+
+app.get("/employees", async(req, res) => {
+  try{
+    const employees = await Employee.find();
+    res.send({message : "Employees fetched successfully", employees});
+  }
+  catch(err){
+    console.log(err);
+  }
+})
+
+
+
+
 
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');
