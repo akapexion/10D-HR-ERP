@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, MoreVertical, Mail, Pencil, Trash2 } from "lucide-react";
+import { Search, MoreVertical, Mail, Pencil, Trash2, Check, X } from "lucide-react";
 import axios from "axios";
 import { useEffect } from "react";
 const statusStyles = {
@@ -9,8 +9,12 @@ const statusStyles = {
 };
 
 export default function Employees() {
-  const [query, setQuery] = useState("");
   const [empData, setEmpData] = useState([]);
+
+  const [editingId, setEditingId] = useState(null);
+  const [editEmpName, setEditEmpName] = useState("");
+  const [editEmpEmail, setEditEmpEmail] = useState("");
+  const [editEmpDept, setEditEmpDept] = useState("Engineering");
 
   const fetchEmployees = async () => {
     try {
@@ -28,6 +32,14 @@ export default function Employees() {
     fetchEmployees();
   }, []);
 
+  const handleEdit = (emp) => {
+    console.log(emp._id + " " + emp.employee_fullname);
+    setEditingId(emp._id);
+    setEditEmpName(emp.employee_fullname);
+    setEditEmpEmail(emp.employee_email);
+    setEditEmpDept(emp.employee_department);
+  }
+
   return (
     <div className="">
 
@@ -37,8 +49,8 @@ export default function Employees() {
           <thead>
             <tr className="text-left text-slate-400 uppercase text-xs tracking-wide">
               <th className="px-5 py-3 font-medium">Employee</th>
+              <th className="px-5 py-3 font-medium">Email</th>
               <th className="px-5 py-3 font-medium">Department</th>
-              <th className="px-5 py-3 font-medium">Status</th>
               <th className="px-5 py-3 font-medium text-right">Actions</th>
             </tr>
           </thead>
@@ -57,35 +69,81 @@ export default function Employees() {
                       className="w-9 h-9 rounded-full"
                     />
                     <div>
-                      <p className="font-medium text-slate-800">{emp.employee_fullname}</p>
-                      <p className="text-slate-400 text-xs flex items-center gap-1">
-                        <Mail size={12} /> {emp.employee_email}
+                      <p className="font-medium text-slate-800">
+                        {
+                          editingId == emp._id ?
+
+                            <input type="text" className="border border-gray-300" value={editEmpName} onChange={(e) => setEditEmpName(e.target.value)} />
+
+                            :
+
+                            emp.employee_fullname
+
+                        }
                       </p>
                     </div>
                   </div>
                 </td>
                 <td className="px-5 py-3 text-slate-600">
-                  {emp.department}
-                  <p className="text-xs text-slate-400">{emp.employee_role}</p>
+                  {
+
+                    editingId == emp._id ?
+                      <input type="text" className="border border-gray-300" value={editEmpEmail} onChange={(e) => setEditEmpEmail(e.target.value)} />
+                      :
+                      emp.employee_email
+                  }
                 </td>
                 <td className="px-5 py-3">
                   <span
-                    className={`px-2.5 py-1 rounded-full text-xs font-medium ${statusStyles[emp.employee_department]}`}
+                    className={`px-2.5 py-1 rounded-full text-xs font-medium`}
                   >
-                    {emp.employee_department}
+                    {
+
+                      editingId == emp._id ?
+                        <select
+                          name="department"
+                          className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                          onChange={(e) => setEditEmpDept(e.target.value)}
+                        >
+                          <option value="Engineering">Engineering</option>
+                          <option value="Design">Design</option>
+                          <option value="Marketing">Marketing</option>
+                          <option value="Human Resources">Human Resources</option>
+                          <option value="Sales">Sales</option>
+                        </select>
+                        :
+                        emp.employee_department
+                    }
                   </span>
                 </td>
                 <td className="px-5 py-3">
                   <div className="flex items-center justify-end gap-1 text-slate-400">
-                    <button className="p-1.5 rounded-md hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
-                      <Pencil size={15} />
-                    </button>
-                    <button className="p-1.5 rounded-md hover:bg-red-50 hover:text-red-500 transition-colors">
-                      <Trash2 size={15} />
-                    </button>
-                    <button className="p-1.5 rounded-md hover:bg-slate-100 transition-colors">
-                      <MoreVertical size={15} />
-                    </button>
+
+                    {
+                      editingId == emp._id ?
+                        <>
+                          <button onClick={() => handleEdit(emp)} className="p-1.5 rounded-md bg-green-600 text-white transition-colors">
+                            <Check size={15} />
+                          </button>
+
+                          <button className="p-1.5 rounded-md bg-yellow-600 text-white transition-colors">
+                            <X size={15} />
+                          </button>
+                        </>
+                        :
+                        <>
+                          <button onClick={() => handleEdit(emp)} className="p-1.5 rounded-md hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+                            <Pencil size={15} />
+                          </button>
+
+                          <button className="p-1.5 rounded-md hover:bg-red-50 hover:text-red-500 transition-colors">
+                            <Trash2 size={15} />
+                          </button>
+                        </>
+
+                    }
+
+
                   </div>
                 </td>
               </tr>
