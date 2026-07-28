@@ -42,6 +42,33 @@ app.get("/employees", async(req, res) => {
   }
 })
 
+app.put("/updateemployee/:id", async(req, res) => {
+  try{
+    // console.log(req.body);
+    const { editEmpName, editEmpEmail, editEmpDept } = req.body;
+    await Employee.updateOne({_id : req.params.id}, {$set : {
+      employee_fullname : editEmpName,
+      employee_email : editEmpEmail,
+      employee_dept : editEmpDept
+    }});
+    res.send({message : "Employee Updated successfully"});
+  }
+  catch(err){
+    console.log(err);
+  }
+})
+
+
+app.delete("/deleteemployee/:id", async(req, res) => {
+  try{
+    await Employee.deleteOne({_id : req.params.id});
+    res.send({message : "Employee deleted successfully"});
+  }
+  catch(err){
+    console.log(err);
+  }
+})
+
 
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');

@@ -16,6 +16,8 @@ export default function Employees() {
   const [editEmpEmail, setEditEmpEmail] = useState("");
   const [editEmpDept, setEditEmpDept] = useState("Engineering");
 
+  const [refresh, setRefresh] = useState(false);
+
   const fetchEmployees = async () => {
     try {
       const response = await axios.get("http://localhost:3000/employees");
@@ -30,7 +32,7 @@ export default function Employees() {
 
   useEffect(() => {
     fetchEmployees();
-  }, []);
+  }, [refresh]);
 
   const handleEdit = (emp) => {
     console.log(emp._id + " " + emp.employee_fullname);
@@ -38,6 +40,36 @@ export default function Employees() {
     setEditEmpName(emp.employee_fullname);
     setEditEmpEmail(emp.employee_email);
     setEditEmpDept(emp.employee_department);
+  }
+
+
+  const handleSave = async(id) => {
+    try{
+      const response = await axios.put(`http://localhost:3000/updateemployee/${id}`, {
+        editEmpName,
+        editEmpEmail,
+        editEmpDept
+      });
+      console.log(response);
+      setEditingId(null);
+
+      setRefresh(!refresh);
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
+  const handleDelete = async(id) => {
+    try{
+      const response = await axios.delete(`http://localhost:3000/deleteemployee/${id}`);
+      console.log(response);
+
+      setRefresh(!refresh);
+    }
+    catch(err){
+      console.log(err);
+    }
   }
 
   return (
@@ -122,11 +154,11 @@ export default function Employees() {
                     {
                       editingId == emp._id ?
                         <>
-                          <button onClick={() => handleEdit(emp)} className="p-1.5 rounded-md bg-green-600 text-white transition-colors">
+                          <button onClick={() => handleSave(emp._id)} className="p-1.5 rounded-md bg-green-600 text-white transition-colors">
                             <Check size={15} />
                           </button>
 
-                          <button className="p-1.5 rounded-md bg-yellow-600 text-white transition-colors">
+                          <button onClick={() => setEditingId(null)} className="p-1.5 rounded-md bg-yellow-600 text-white transition-colors">
                             <X size={15} />
                           </button>
                         </>
@@ -136,7 +168,7 @@ export default function Employees() {
                             <Pencil size={15} />
                           </button>
 
-                          <button className="p-1.5 rounded-md hover:bg-red-50 hover:text-red-500 transition-colors">
+                          <button onClick={() => handleDelete(emp._id)} className="p-1.5 rounded-md hover:bg-red-50 hover:text-red-500 transition-colors">
                             <Trash2 size={15} />
                           </button>
                         </>
