@@ -4,32 +4,36 @@ import axios from "axios";
 
 export default function AddEmployee() {
 
-  const [empFullName, setEmpFullName] = useState("");
-  const [empEmail, setEmpEmail] = useState("");
-  const [empRole, setEmpRole] = useState("");
-  const [empDepartment, setEmpDepartment] = useState("Engineering");
-  const [empJoinDate, setEmpJoinDate] = useState("");
+  const [fullname, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [dept, setDept] = useState("Marketing");
+  const [role, setRole] = useState("");
+  const [joiningDate, setJoiningDate] = useState("");
 
   const handleSubmission = async(e) => {
     e.preventDefault();
     try{
-      // console.log(empFullName + " " + empEmail + " " + empRole + " " + empDepartment + " " + empJoinDate);
-
       const response = await axios.post("http://localhost:3000/addemployee", {
-        empFullName, empEmail, empRole, empDepartment, empJoinDate
-      }); 
+        fullname,
+        email,
+        dept,
+        role,
+        joiningDate
+      });
+
       console.log(response);
 
-      setEmpFullName("");
-      setEmpEmail("");
-      setEmpRole("");
-      setEmpDepartment("Engineering");
-      setEmpJoinDate("");
+      setFullName("");
+      setEmail("");
+      setDept("");
+      setRole("");
+      setJoiningDate("");
     }
     catch(err){
       console.log(err);
     }
   }
+
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 max-w-2xl">
@@ -65,8 +69,8 @@ export default function AddEmployee() {
               placeholder="e.g. Ayesha Khan"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
-              value={empFullName}
-              onChange={(e) => setEmpFullName(e.target.value)}
+              value={fullname}
+              onChange={(e) => setFullName(e.target.value)}
             />
           </div>
 
@@ -80,8 +84,8 @@ export default function AddEmployee() {
               placeholder="name@company.com"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
-              value={empEmail}
-              onChange={(e) => setEmpEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -94,8 +98,8 @@ export default function AddEmployee() {
               placeholder="e.g. Product Designer"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
-              value={empRole}
-              onChange={(e) => setEmpRole(e.target.value)}
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
             />
           </div>
 
@@ -106,7 +110,7 @@ export default function AddEmployee() {
             <select
               name="department"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
-              onChange={(e) => setEmpDepartment(e.target.value)}
+              onChange={(e) => setDept(e.target.value)}
             >
               <option value="Engineering">Engineering</option>
               <option value="Design">Design</option>
@@ -124,8 +128,8 @@ export default function AddEmployee() {
               name="joinDate"
               type="date"
               className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={empJoinDate}
-              onChange={(e) => setEmpJoinDate(e.target.value)}
+              value={joiningDate}
+              onChange={(e) => setJoiningDate(e.target.value)}
             />
           </div>
         </div>

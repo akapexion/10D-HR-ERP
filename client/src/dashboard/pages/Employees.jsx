@@ -9,68 +9,30 @@ const statusStyles = {
 };
 
 export default function Employees() {
+
   const [empData, setEmpData] = useState([]);
 
-  const [editingId, setEditingId] = useState(null);
-  const [editEmpName, setEditEmpName] = useState("");
-  const [editEmpEmail, setEditEmpEmail] = useState("");
-  const [editEmpDept, setEditEmpDept] = useState("Engineering");
-
-  const [refresh, setRefresh] = useState(false);
-
-  const fetchEmployees = async () => {
-    try {
+  const fetchEmployees = async() => {
+    try{
       const response = await axios.get("http://localhost:3000/employees");
 
       console.log(response.data.employees);
       setEmpData(response.data.employees);
     }
-    catch (err) {
+    catch(err){
       console.log(err);
     }
   }
 
   useEffect(() => {
-    fetchEmployees();
-  }, [refresh]);
-
-  const handleEdit = (emp) => {
-    console.log(emp._id + " " + emp.employee_fullname);
-    setEditingId(emp._id);
-    setEditEmpName(emp.employee_fullname);
-    setEditEmpEmail(emp.employee_email);
-    setEditEmpDept(emp.employee_department);
-  }
+  fetchEmployees();
+  }, []);
 
 
-  const handleSave = async(id) => {
-    try{
-      const response = await axios.put(`http://localhost:3000/updateemployee/${id}`, {
-        editEmpName,
-        editEmpEmail,
-        editEmpDept
-      });
-      console.log(response);
-      setEditingId(null);
 
-      setRefresh(!refresh);
-    }
-    catch(err){
-      console.log(err);
-    }
-  }
 
-  const handleDelete = async(id) => {
-    try{
-      const response = await axios.delete(`http://localhost:3000/deleteemployee/${id}`);
-      console.log(response);
 
-      setRefresh(!refresh);
-    }
-    catch(err){
-      console.log(err);
-    }
-  }
+
 
   return (
     <div className="">
@@ -87,101 +49,48 @@ export default function Employees() {
             </tr>
           </thead>
           <tbody>
-
-            {empData.map((emp) => (
+              {empData.map((emp) => (
               <tr
-                key={emp.employee_email}
+                key={emp._id}
                 className="border-t border-slate-100 hover:bg-slate-50/70 transition-colors"
               >
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3">
                     <img
-                      src={emp.avatar}
-                      alt={emp.employee_fullname}
+                      src=""
+                      alt=""
                       className="w-9 h-9 rounded-full"
                     />
                     <div>
                       <p className="font-medium text-slate-800">
-                        {
-                          editingId == emp._id ?
-
-                            <input type="text" className="border border-gray-300" value={editEmpName} onChange={(e) => setEditEmpName(e.target.value)} />
-
-                            :
-
-                            emp.employee_fullname
-
-                        }
+                        {emp.employee_fullname}
                       </p>
                     </div>
                   </div>
                 </td>
                 <td className="px-5 py-3 text-slate-600">
-                  {
-
-                    editingId == emp._id ?
-                      <input type="text" className="border border-gray-300" value={editEmpEmail} onChange={(e) => setEditEmpEmail(e.target.value)} />
-                      :
-                      emp.employee_email
-                  }
+                  {emp.employee_email}
                 </td>
                 <td className="px-5 py-3">
                   <span
                     className={`px-2.5 py-1 rounded-full text-xs font-medium`}
                   >
-                    {
-
-                      editingId == emp._id ?
-                        <select
-                          name="department"
-                          className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
-                          onChange={(e) => setEditEmpDept(e.target.value)}
-                        >
-                          <option value="Engineering">Engineering</option>
-                          <option value="Design">Design</option>
-                          <option value="Marketing">Marketing</option>
-                          <option value="Human Resources">Human Resources</option>
-                          <option value="Sales">Sales</option>
-                        </select>
-                        :
-                        emp.employee_department
-                    }
+                    {emp.employee_department}
                   </span>
                 </td>
                 <td className="px-5 py-3">
                   <div className="flex items-center justify-end gap-1 text-slate-400">
-
-                    {
-                      editingId == emp._id ?
-                        <>
-                          <button onClick={() => handleSave(emp._id)} className="p-1.5 rounded-md bg-green-600 text-white transition-colors">
-                            <Check size={15} />
-                          </button>
-
-                          <button onClick={() => setEditingId(null)} className="p-1.5 rounded-md bg-yellow-600 text-white transition-colors">
-                            <X size={15} />
-                          </button>
-                        </>
-                        :
-                        <>
-                          <button onClick={() => handleEdit(emp)} className="p-1.5 rounded-md hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+                          <button className="p-1.5 rounded-md hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
                             <Pencil size={15} />
                           </button>
 
-                          <button onClick={() => handleDelete(emp._id)} className="p-1.5 rounded-md hover:bg-red-50 hover:text-red-500 transition-colors">
+                          <button className="p-1.5 rounded-md hover:bg-red-50 hover:text-red-500 transition-colors">
                             <Trash2 size={15} />
                           </button>
-                        </>
-
-                    }
-
-
                   </div>
                 </td>
               </tr>
-            ))}
-
-
+              ))}
           </tbody>
         </table>
       </div>
