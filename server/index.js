@@ -2,6 +2,8 @@ import express from 'express';
 import connectDB from './config/db_connection.js';
 import Employee from './models/employees.js';
 import cors from 'cors';
+import bcrypt from 'bcrypt';
+import Auth from './models/auth.js';
 const app = express();
 
 connectDB();
@@ -52,6 +54,8 @@ app.put("/updateemployee/:id", async(req, res) => {
       employee_department : req.body.editEmpDept
     }});
 
+    console.log("Updated");
+
     res.send({message : "Employee Updated Successfully"});
   }
   catch(err){
@@ -68,6 +72,60 @@ app.delete("/deleteemployee/:id", async(req, res) => {
     console.log(err);
   }
 })
+
+
+
+app.post("/register", async(req, res) => {
+  try{
+
+    const { full_name, email, password } = req.body;
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+
+    await Auth.insertOne({
+      full_name : full_name,
+      email : email,
+      password : hashPassword
+    });
+
+    res.send({message : "User Registered Successfully"});
+  }
+  catch(err){
+    console.log(err);
+  }
+})
+
+
+app.post("/login", async(req, res) => {
+  try{
+    const {email, password} = req.body;
+
+    const registeredAuth = await Auth.findOne({email : email});
+    if(registeredAuth){
+      const isMatch = await bcrypt.compare(password, registeredAuth.password);
+      if(isMatch){
+        res.send({message : "Logged in Successfully"});
+      }
+      else {
+        res.send({message : "Incorrect Credentials"});
+      }
+    }
+    else {
+      res.send({message : "Auth don't exist"});
+    }
+  }
+  catch(err){
+    console.log(err);
+  }
+})
+
+
+
+
+
+
+
 
 
 
