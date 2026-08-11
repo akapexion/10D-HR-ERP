@@ -6,6 +6,8 @@ import AddEmployee from './dashboard/pages/AddEmployee'
 import Employees from './dashboard/pages/Employees'
 import AppLayout from './AppLayout'
 import DashboardLayout from './dashboard/DashboardLayout'
+import Register from './dashboard/Register'
+import Login from './dashboard/Login'
 
 const App = () => {
   return (
@@ -24,6 +26,11 @@ const App = () => {
             <Route path="addemployee" element={<AddEmployee />} />
             <Route path="employees" element={<Employees />} />
           </Route>
+
+
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login/>}/>
+          
         </Routes>
       </BrowserRouter>
     </>
