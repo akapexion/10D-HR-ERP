@@ -4,12 +4,12 @@ import Employee from './models/employees.js';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
 import Auth from './models/auth.js';
+import upload from './middlewares/uploadMiddleware.js';
 const app = express();
 
 connectDB();
 app.use(cors());
 app.use(express.json());
-
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');

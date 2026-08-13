@@ -44,17 +44,19 @@ export default function AddEmployee() {
         </p>
       </div>
 
-      <form className="p-6 space-y-6" onSubmit={handleSubmission}>
+      <form className="p-6 space-y-6" onSubmit={handleSubmission} encType="multipart/form-data">
         {/* Avatar upload */}
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+            
             <UserCircle2 size={36} />
           </div>
           <button
             type="button"
             className="flex items-center gap-2 text-sm font-medium text-indigo-600 border border-indigo-200 px-3 py-2 rounded-lg hover:bg-indigo-50 transition-colors"
           >
-            <Upload size={15} /> Upload Photo
+            <Upload size={15} />
+            <input type="file" name="" />
           </button>
         </div>
 
