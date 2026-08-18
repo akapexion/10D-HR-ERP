@@ -1,25 +1,29 @@
 import mongoose from "mongoose";
 
 const employeeSchema = new mongoose.Schema({
-    employee_fullname : {
-        type : String,
-        required : true
+    employee_fullname: {
+        type: String,
+        required: true
     },
-    employee_email : {
-        type : String,
-        required : true
+    employee_email: {
+        type: String,
+        required: true
     },
-    employee_role : {
-        type : String,
-        required : true
+    employee_role: {
+        type: String,
+        required: true
     },
-    employee_department : {
-        type : String,
-        required : true
+    employee_department: {
+        type: String,
+        required: true
     },
-    employee_joiningDate : {
-        type : Date,
-        required : true
+    employee_joiningDate: {
+        type: Date,
+        required: true
+    },
+    employee_image: {
+        type: String,
+        required: true
     }
 })
 

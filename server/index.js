@@ -15,16 +15,18 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-app.post("/addemployee", async(req, res) => {
+app.post("/addemployee", upload.single("image"), async(req, res) => {
   const {fullname, email, dept, role, joiningDate } = req.body;
   console.log(req.body);
+  console.log(req.file);
   try{
     await Employee.insertOne({
       employee_fullname : fullname,
       employee_email : email,
       employee_department : dept,
       employee_role : role,
-      employee_joiningDate : joiningDate
+      employee_joiningDate : joiningDate,
+      employee_image : req.file.filename
     });
     res.send({message : "Employee Added Successfully"});
   }
